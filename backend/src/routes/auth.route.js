@@ -4,11 +4,12 @@ import { protectRoute } from "../middleware/auth.middleware.js";
 import { arcjetProtection } from "../middleware/arcjet.middleware.js";
 
 const router = express.Router();
-
+const isDev = process.env.NODE_ENV === "development";
+ if (!isDev){
 router.use(arcjetProtection);
-
+}
 router.post("/signup", signup);
-router.post("/login", arcjetProtection, login);
+router.post("/login", login);
 router.post("/logout", logout);
 
 router.put("/update-profile", protectRoute, updateProfile);
