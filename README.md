@@ -27,7 +27,10 @@ Deployed using Render (backend) and Vercel (frontend).
 
 **Real-time:** Socket.io
 
-**Database:** MongoDB Atlas
+**Database:** MongoDB 
+
+**Special Services:** Cloudinary handles image uploads, Resend sends automated welcome emails, and
+Arcjet provides security features like rate limiting and bot detection
 
 **Deployment:** Render (API) + Vercel (UI)
 
