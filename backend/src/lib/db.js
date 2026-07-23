@@ -8,4 +8,4 @@ export const connectDB = async () => {
         console.error("Error connecting to MONGODB:", error)
         process.exit(1);// status 1 means failed and 0 means success 
     }
-}
+};
