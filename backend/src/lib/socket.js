@@ -17,7 +17,6 @@ const io = new Server(server, {
   },
 });
 
-
 // apply authentication middleware to all socket connections
 io.use(socketAuthMiddleware);
 
