@@ -1,23 +1,23 @@
 import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
-import cookieParser from "cookie-parser";
-import cors from "cors";
+import { app, server } from "./lib/socket.js"; // this app is the REAL app
 
-import { app, server } from "./lib/socket.js";
+// 1. JSON parser FIRST
+app.use(express.json({ limit: "5mb" }));
 
+// 2. Cookie parser SECOND
+app.use(cookieParser());
 
-const PORT = ENV.PORT||3000;
-
-app.use(express.json({limit:"5mb"}));// this is the middleware we are calling so that we can get access to the fields the user send - req.body
-//app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
-
+// 3. CORS THIRD
 const allowedOrigins = [
   "http://localhost:5173",
-  ENV.CLIENT_URL, // production frontend
+  ENV.CLIENT_URL,
 ];
 
 app.use(
@@ -27,12 +27,12 @@ app.use(
   })
 );
 
-app.use(cookieParser());
-
+// 4. Routes FOURTH
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-server.listen(PORT, () => {
-    console.log("server running on port: " + PORT);
-    connectDB();
+// 5. Start server LAST
+server.listen(ENV.PORT || 3000, () => {
+  console.log("server running");
+  connectDB();
 });
